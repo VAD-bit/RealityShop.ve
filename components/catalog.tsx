@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useCart } from '@/components/cart-context'
+import { useCustomer } from '@/lib/customer-context'
 import { NotifyButton } from '@/components/notify-button'
 import {
   Footprints,
@@ -127,6 +128,7 @@ export function Catalog({
   onSizeFilterChange,
 }: CatalogProps) {
   const { addItem } = useCart()
+  const { customer } = useCustomer()
   const [cartSizes, setCartSizes] = useState<{ [productId: string]: string[] }>({})
   const [addedIds, setAddedIds] = useState<{ [productId: string]: boolean }>({})
   const [visibleCount, setVisibleCount] = useState<number>(10)
@@ -190,9 +192,37 @@ export function Catalog({
     return matchCategory && matchBrand && matchGender && matchSize
   })
 
+  // Personalización: ordenar según preferencias del cliente
+  const personalizedProducts = (() => {
+    if (!customer || !isMain || filteredProducts.length === 0) return filteredProducts
+
+    const prefCats = (customer.preferred_categories || []).map((c) => c.toLowerCase())
+    const prefBrands = (customer.preferred_brands || []).map((b) => b.toLowerCase())
+    const prefSizes = customer.preferred_sizes || []
+    const prefGender = customer.preferred_gender?.toLowerCase()
+
+    return [...filteredProducts].sort((a, b) => {
+      const scoreA = getProductScore(a)
+      const scoreB = getProductScore(b)
+      return scoreB - scoreA
+    })
+
+    function getProductScore(p: Product): number {
+      let score = 0
+      if (prefGender && p.gender?.toLowerCase() === prefGender) score += 3
+      if (prefCats.includes(p.category?.toLowerCase() || '')) score += 2
+      if (prefBrands.includes(p.subcategory?.toLowerCase() || '')) score += 2
+      const hasPrefSize = prefSizes.some((s) => (p.allSizes || []).includes(s))
+      if (hasPrefSize) score += 1
+      if (p.is_new) score += 1
+      if (p.discount_price && p.discount_price < p.price) score += 1
+      return score
+    }
+  })()
+
   // Productos visibles (límite de 10 + expansión)
-  const visibleProducts = filteredProducts.slice(0, visibleCount)
-  const hasMore = filteredProducts.length > visibleCount
+  const visibleProducts = personalizedProducts.slice(0, visibleCount)
+  const hasMore = personalizedProducts.length > visibleCount
 
   const handleToggleCartSize = (productId: string, size: string) => {
     setCartSizes((prev) => {
@@ -278,8 +308,8 @@ export function Catalog({
           )}
         </div>
         <p className="text-sm font-medium text-muted-foreground md:text-right">
-          {filteredProducts.length} producto{filteredProducts.length !== 1 ? 's' : ''} disponible
-          {filteredProducts.length !== 1 ? 's' : ''}
+          {personalizedProducts.length} producto{personalizedProducts.length !== 1 ? 's' : ''} disponible
+          {personalizedProducts.length !== 1 ? 's' : ''}
         </p>
       </div>
 
@@ -399,7 +429,7 @@ export function Catalog({
       )}
 
       {/* Grid de productos */}
-      {filteredProducts.length === 0 ? (
+      {personalizedProducts.length === 0 ? (
         <div className="flex min-h-[280px] flex-col items-center justify-center gap-4 rounded-3xl border border-dashed border-white/10">
           <PackageSearch className="size-10 text-muted-foreground" />
           <p className="font-heading text-lg font-black uppercase tracking-wide">
@@ -595,7 +625,7 @@ export function Catalog({
               >
                 Ver todo el catálogo
                 <span className="font-mono text-[10px] text-muted-foreground group-hover:text-white/80">
-                  ({filteredProducts.length})
+                  ({personalizedProducts.length})
                 </span>
               </button>
             </div>

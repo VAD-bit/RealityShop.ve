@@ -18,6 +18,7 @@ import {
   LogOut,
   ClipboardList,
   Vote,
+  Bell,
 } from 'lucide-react'
 import { createAuthClient } from '@/lib/supabase/auth-client'
 
@@ -29,6 +30,7 @@ const navItems = [
   { name: 'Asesores', href: '/admin/asesores', icon: Users },
   { name: 'Ofertas / Eventos', href: '/admin/ofertas', icon: Tag },
   { name: 'Votaciones', href: '/admin/votaciones', icon: Vote },
+  { name: 'Notificaciones', href: '/admin/notificaciones', icon: Bell },
   { name: 'Finanzas', href: '/admin/finanzas', icon: BarChart3 },
 ]
 

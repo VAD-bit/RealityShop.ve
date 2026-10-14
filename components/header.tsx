@@ -2,8 +2,12 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { Search, ShoppingBag, X, Menu, User } from 'lucide-react'
 import { useCart } from '@/components/cart-context'
+import { useCustomer } from '@/lib/customer-context'
+import { AuthModal } from '@/components/auth-modal'
+import { NotificationBell } from '@/components/notification-bell'
 import { supabase } from '@/lib/supabase'
 
 const NAV_LINKS = [
@@ -19,10 +23,13 @@ interface HeaderProps {
 
 export function Header({ query = '', onQueryChange }: HeaderProps) {
   const { count, openCart } = useCart()
+  const { isAuthenticated } = useCustomer()
+  const router = useRouter()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [productsList, setProductsList] = useState<any[]>([])
   const [isFocused, setIsFocused] = useState(false)
+  const [isAuthOpen, setIsAuthOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -216,6 +223,19 @@ export function Header({ query = '', onQueryChange }: HeaderProps) {
               )}
             </div>
 
+            {/* Cuenta + Notificaciones */}
+            <div className="flex items-center gap-1.5">
+              <NotificationBell />
+              <button
+                type="button"
+                onClick={() => isAuthenticated ? router.push('/account') : setIsAuthOpen(true)}
+                aria-label={isAuthenticated ? 'Mi cuenta' : 'Iniciar sesión'}
+                className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-all hover:border-primary/50 hover:bg-white/8"
+              >
+                <User className="size-[18px]" />
+              </button>
+            </div>
+
             {/* Carrito */}
             <button
               type="button"
@@ -262,6 +282,13 @@ export function Header({ query = '', onQueryChange }: HeaderProps) {
           </nav>
         )}
       </header>
+
+      {/* Modal de autenticación */}
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        subtitle="Tu cuenta es necesaria para comprar, pedir y participar."
+      />
     </>
   )
 }

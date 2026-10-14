@@ -1,8 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { Bell, X, Check, Loader2 } from 'lucide-react'
+import { Bell, X, Check, Loader2, LogIn } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
+import { useCustomer } from '@/lib/customer-context'
+import { AuthModal } from '@/components/auth-modal'
 
 interface NotifyButtonProps {
   productId: string
@@ -12,11 +14,20 @@ interface NotifyButtonProps {
 }
 
 export function NotifyButton({ productId, productName, allSizes, category }: NotifyButtonProps) {
+  const { customer, isAuthenticated } = useCustomer()
   const [isOpen, setIsOpen] = useState(false)
+  const [isAuthOpen, setIsAuthOpen] = useState(false)
   const [selectedSize, setSelectedSize] = useState('')
-  const [contact, setContact] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+
+  const handleOpen = () => {
+    if (!isAuthenticated) {
+      setIsAuthOpen(true)
+      return
+    }
+    setIsOpen(true)
+  }
 
   const handleSubmit = async () => {
     if (!selectedSize) {
@@ -29,7 +40,8 @@ export function NotifyButton({ productId, productName, allSizes, category }: Not
       const { error } = await supabase.from('product_votes').insert({
         product_id: productId,
         size_or_detail: selectedSize,
-        customer_contact: contact || null,
+        customer_id: customer?.id || null,
+        customer_contact: customer?.email || customer?.phone || null,
       })
 
       if (error) throw error
@@ -38,7 +50,6 @@ export function NotifyButton({ productId, productName, allSizes, category }: Not
         setIsOpen(false)
         setIsSubmitted(false)
         setSelectedSize('')
-        setContact('')
       }, 2200)
     } catch (error) {
       console.error('Error guardando voto:', error)
@@ -54,13 +65,22 @@ export function NotifyButton({ productId, productName, allSizes, category }: Not
     <>
       <button
         type="button"
-        onClick={() => setIsOpen(true)}
+        onClick={handleOpen}
         className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-primary/40 bg-primary/10 py-3 font-heading text-[11px] font-black uppercase tracking-widest text-primary transition-all duration-300 hover:bg-primary hover:text-white"
       >
-        <Bell className="size-4" />
-        Avisarme cuando esté disponible
+        {!isAuthenticated ? <LogIn className="size-4" /> : <Bell className="size-4" />}
+        {isAuthenticated ? 'Avisarme cuando esté disponible' : 'Inicia sesión para avisarme'}
       </button>
 
+      {/* Modal login/registro */}
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        onSuccess={() => setIsOpen(true)}
+        subtitle="Tu cuenta es necesaria para recibir avisos de disponibilidad."
+      />
+
+      {/* Modal avisarme */}
       {isOpen && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-3xl border border-neutral-800 bg-neutral-900 p-8 shadow-2xl">
@@ -117,19 +137,6 @@ export function NotifyButton({ productId, productName, allSizes, category }: Not
                     </div>
                   </div>
                 )}
-
-                <div>
-                  <label className="mb-1 block text-[10px] font-black uppercase tracking-widest text-neutral-400">
-                    Tu contacto (opcional)
-                  </label>
-                  <input
-                    type="text"
-                    value={contact}
-                    onChange={(e) => setContact(e.target.value)}
-                    placeholder="WhatsApp o correo"
-                    className="w-full rounded-xl border border-neutral-800 bg-neutral-950 px-4 py-3 text-sm text-white placeholder-neutral-600 outline-none transition focus:border-primary"
-                  />
-                </div>
 
                 <button
                   type="button"

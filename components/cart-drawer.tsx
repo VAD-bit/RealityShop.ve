@@ -25,6 +25,8 @@ import {
   CreditCard,
 } from 'lucide-react'
 import { useCart } from '@/components/cart-context'
+import { useCustomer } from '@/lib/customer-context'
+import { AuthModal } from '@/components/auth-modal'
 import { createClient } from '@/lib/supabase/client'
 import { getSettings, AppSettings, DEFAULT_SETTINGS } from '@/lib/settings'
 import { ADVISORS as DEFAULT_ADVISORS } from '@/lib/constants'
@@ -65,6 +67,8 @@ export function CartDrawer() {
     clear,
   } = useCart()
 
+  const { customer, isAuthenticated } = useCustomer()
+  const [isAuthOpen, setIsAuthOpen] = useState(false)
   const [step, setStep] = useState<Step>('cart')
   const [advisors, setAdvisors] = useState<{ id: string; name: string }[]>(DEFAULT_ADVISORS)
   const [selectedAdvisor, setSelectedAdvisor] = useState<string>('')
@@ -445,11 +449,22 @@ export function CartDrawer() {
                 )}
                 <button
                   type="button"
-                  onClick={() => setStep('checkout')}
+                  onClick={() => {
+                    if (!isAuthenticated) {
+                      setIsAuthOpen(true)
+                      return
+                    }
+                    setStep('checkout')
+                  }}
                   className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-sm bg-primary px-6 py-4 font-heading text-sm font-bold uppercase tracking-wide text-primary-foreground transition-transform hover:-translate-y-0.5"
                 >
                   Continuar <ChevronRight className="size-4" />
                 </button>
+                {!isAuthenticated && (
+                  <p className="mt-2 text-center text-[11px] text-muted-foreground">
+                    Necesitas una cuenta para completar tu compra.
+                  </p>
+                )}
               </div>
             )}
           </>
@@ -923,6 +938,14 @@ export function CartDrawer() {
           </div>
         )}
       </aside>
+
+      {/* Modal login/registro */}
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+        onSuccess={() => setStep('checkout')}
+        subtitle="Tu cuenta es necesaria para completar tu compra."
+      />
     </>
   )
 }

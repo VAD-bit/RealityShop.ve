@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import { Archivo, Inter } from 'next/font/google'
 import { CartProvider } from '@/components/cart-context'
 import { CartDrawer } from '@/components/cart-drawer'
+import { CustomerProvider } from '@/lib/customer-context'
 import './globals.css'
 
 const archivo = Archivo({
@@ -52,10 +53,12 @@ export default function RootLayout({
   return (
     <html lang="es" className={`dark bg-background ${archivo.variable} ${inter.variable}`}>
       <body className="font-sans antialiased overflow-x-hidden">
-          <CartProvider>
-            {children}
-            <CartDrawer />
-          </CartProvider>
+          <CustomerProvider>
+            <CartProvider>
+              {children}
+              <CartDrawer />
+            </CartProvider>
+          </CustomerProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
