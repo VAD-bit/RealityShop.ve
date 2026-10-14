@@ -1,0 +1,346 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  color-scheme: dark;
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.195 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.195 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.62 0.24 25);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.24 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.24 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.62 0.24 25);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.62 0.24 25);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.62 0.24 25);
+  --chart-1: oklch(0.62 0.24 25);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.25rem;
+  --sidebar: oklch(0.145 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.62 0.24 25);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.24 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.62 0.24 25);
+}
+
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.195 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.195 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.62 0.24 25);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.24 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.24 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.62 0.24 25);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.62 0.24 25);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.62 0.24 25);
+  --chart-1: oklch(0.62 0.24 25);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.145 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.62 0.24 25);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.24 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.62 0.24 25);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ============================================================
+   ADMIN — paleta Reality Shop: rojo (#dc2626/#ef4444) sobre carbón
+   ============================================================ */
+.ds-root {
+  --ds-bg-1: #0c0c0e;
+  --ds-bg-2: #161618;
+  --ds-bg-3: #1c1c1f;
+  --ds-gold: #ef4444;
+  --ds-gold-2: #dc2626;
+  --ds-gold-light: #fca5a5;
+  --ds-gold-grad: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  --ds-txt-1: #f5f5f5;
+  --ds-txt-2: #c4c4c4;
+  --ds-txt-3: #8a8a8a;
+  --ds-bord: rgba(255, 255, 255, 0.10);
+  --ds-bord-soft: rgba(255, 255, 255, 0.05);
+  --ds-bord-gold: rgba(239, 68, 68, 0.25);
+  --ds-r-md: 12px;
+  --ds-r-lg: 16px;
+  --ds-r-xl: 24px;
+  color: var(--ds-txt-1);
+  background-color: var(--ds-bg-1);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 10% -10%, rgba(239, 68, 68, 0.07), transparent 60%),
+    radial-gradient(ellipse 60% 80% at 90% 110%, rgba(220, 38, 38, 0.09), transparent 60%);
+}
+
+.ds-card {
+  background: rgba(22, 22, 24, 0.94);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--ds-bord);
+  border-radius: var(--ds-r-lg);
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.4), 0 0 25px rgba(239, 68, 68, 0.04);
+  transition: border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.35s, box-shadow 0.35s;
+}
+.ds-card:hover {
+  background: #1c1c1f;
+  border-color: rgba(239, 68, 68, 0.35);
+  box-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.5), 0 0 30px rgba(239, 68, 68, 0.08);
+}
+
+.ds-btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--ds-gold-grad);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--ds-r-md);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+.ds-btn-gold:hover:not(:disabled) {
+  filter: brightness(1.08);
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.45);
+}
+.ds-btn-gold:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.ds-btn-gold:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ds-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--ds-r-md);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+.ds-btn-ghost:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.ds-input {
+  height: 44px;
+  width: 100%;
+  background: #1c1c1f;
+  border: 1px solid var(--ds-bord);
+  border-radius: var(--ds-r-md);
+  color: #f5f5f5;
+  font-size: 14px;
+  padding: 0 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.ds-input::placeholder {
+  color: #6b6b6b;
+}
+.ds-input:focus {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+/* input con icono a la izquierda (el padding debe ir aquí, no con pl-* de Tailwind:
+   .ds-input está fuera de @layer y pisaría las utilidades) */
+.ds-input-icon {
+  padding-left: 44px;
+}
+
+.ds-badge-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: var(--ds-gold);
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 10px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.ds-text-gold {
+  color: #f5f5f5;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.ds-eyebrow {
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--ds-gold);
+}
+
+/* Scrollbar fina para modales admin */
+.ds-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.ds-scroll::-webkit-scrollbar-thumb {
+  background: rgba(239, 68, 68, 0.35);
+  border-radius: 999px;
+}
+
+/* Entradas escalonadas */
+@keyframes ds-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.ds-anim-in {
+  animation: ds-fade-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.ds-stagger-1 { animation-delay: 0.04s; }
+.ds-stagger-2 { animation-delay: 0.08s; }
+.ds-stagger-3 { animation-delay: 0.12s; }
+.ds-stagger-4 { animation-delay: 0.16s; }
+.ds-stagger-5 { animation-delay: 0.2s; }
+.ds-stagger-6 { animation-delay: 0.24s; }
+.ds-stagger-7 { animation-delay: 0.28s; }
+
+/* ============================================================
+   CLIENTE — micro-interacciones premium
+   ============================================================ */
+@keyframes rs-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.rs-marquee {
+  animation: rs-marquee 30s linear infinite;
+}
+
+@keyframes rs-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rs-fade-up {
+  animation: rs-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes rs-kenburns {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15); }
+}
+.rs-kenburns {
+  animation: rs-kenburns 25s ease-in-out infinite alternate;
+}
+
+/* Impresión: solo el comprobante del POS */
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+  #printable-receipt,
+  #printable-receipt * {
+    visibility: visible !important;
+  }
+  #printable-receipt {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 12px;
+  }
+}
