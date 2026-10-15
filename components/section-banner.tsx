@@ -12,6 +12,7 @@ interface SectionBannerProps {
   ctaLabel?: string
   ctaHref?: string
   height?: 'sm' | 'md' | 'lg'
+  background?: string
 }
 
 const HEIGHTS = {
@@ -29,6 +30,7 @@ export function SectionBanner({
   ctaLabel,
   ctaHref,
   height = 'md',
+  background = '/banner-fondo.png',
 }: SectionBannerProps) {
   const clean = images.filter(Boolean).slice(0, 8)
   const [current, setCurrent] = useState(0)
@@ -48,22 +50,39 @@ export function SectionBanner({
 
   return (
     <section className={`relative overflow-hidden ${HEIGHTS[height]}`}>
-      {/* Slideshow de fondo */}
+      {/* Fondo extendido horizontalmente */}
+      <div
+        className="absolute inset-0 bg-[#0c0c0e]"
+        aria-hidden="true"
+        style={{
+          backgroundImage: `url('${background}')`,
+          backgroundSize: '100% 100%',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      />
+
+      {/* Slideshow de zapatos encima (+20% de tamaño) */}
       {clean.length > 0 && (
-        <div className="absolute inset-0 bg-[#0c0c0e]" aria-hidden="true">
+        <div className="absolute inset-0" aria-hidden="true">
           {clean.map((img, i) => (
             <div
               key={`${img}-${i}`}
-              className={`absolute inset-0 transition-all duration-[1400ms] ease-out ${
-                i === current ? 'scale-100 opacity-100' : 'scale-105 opacity-0'
+              className={`absolute inset-0 transition-opacity duration-[1400ms] ease-out ${
+                i === current ? 'opacity-100' : 'opacity-0'
               }`}
-              style={{
-                backgroundImage: `url('${img}')`,
-                backgroundSize: 'contain',
-                backgroundPosition: 'center right 8%',
-                backgroundRepeat: 'no-repeat',
-              }}
-            />
+            >
+              <div
+                className="absolute inset-0 transition-transform duration-[1400ms] ease-out"
+                style={{
+                  backgroundImage: `url('${img}')`,
+                  backgroundSize: 'contain',
+                  backgroundPosition: 'center right 8%',
+                  backgroundRepeat: 'no-repeat',
+                  transform: i === current ? 'scale(1.2)' : 'scale(1.25)',
+                }}
+              />
+            </div>
           ))}
         </div>
       )}
