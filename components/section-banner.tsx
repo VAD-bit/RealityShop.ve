@@ -71,9 +71,6 @@ export function SectionBanner({
               className={`absolute inset-0 transition-opacity duration-[1400ms] ease-out ${
                 i === current ? 'opacity-100' : 'opacity-0'
               }`}
-              style={{
-                backgroundColor: /dragon/i.test(img) ? '#ffffff' : 'transparent',
-              }}
             >
               <div
                 className="absolute inset-0 transition-transform duration-[1400ms] ease-out"
