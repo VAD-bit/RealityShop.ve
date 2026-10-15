@@ -67,6 +67,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
   }, [pathname])
 
+  // Login: pantalla completa sin sidebar
+  if (pathname === '/admin/login') {
+    return <>{children}</>
+  }
+
   return (
     <div className="ds-root ds-anim-in relative flex min-h-screen flex-col overflow-x-hidden selection:bg-[#ef4444] selection:text-[#111] md:flex-row">
       {/* SPLASH DE ENTRADA — Powered by AMPLIKAA */}
