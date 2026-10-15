@@ -21,6 +21,7 @@ import {
   Bell,
 } from 'lucide-react'
 import { createAuthClient } from '@/lib/supabase/auth-client'
+import { AdminSplash } from '@/components/admin-splash'
 
 const navItems = [
   { name: 'Resumen', href: '/admin', icon: LayoutDashboard },
@@ -68,6 +69,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="ds-root ds-anim-in relative flex min-h-screen flex-col overflow-x-hidden selection:bg-[#ef4444] selection:text-[#111] md:flex-row">
+      {/* SPLASH DE ENTRADA — Powered by AMPLIKAA */}
+      <AdminSplash />
+
       {/* TEXTURA DE FONDO */}
       <div
         className="pointer-events-none fixed inset-0 z-0 opacity-70"

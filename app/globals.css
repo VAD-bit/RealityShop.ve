@@ -344,3 +344,63 @@
     padding: 12px;
   }
 }
+
+/* ============================================================
+   SPLASH ADMIN — motion graphics "Powered by AMPLIKAA"
+   ============================================================ */
+@keyframes aurora-a {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(90px, -60px) scale(1.18); }
+}
+@keyframes aurora-b {
+  from { transform: translate(0, 0) scale(1.1); }
+  to { transform: translate(-80px, -50px) scale(0.95); }
+}
+
+@keyframes powered-in {
+  from { opacity: 0; letter-spacing: 0.9em; filter: blur(6px); }
+  to { opacity: 1; letter-spacing: 0.55em; filter: blur(0); }
+}
+
+@keyframes letter-form {
+  0% {
+    opacity: 0;
+    transform: translateY(56px) scale(0.7);
+    filter: blur(16px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes aa-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.35));
+    opacity: 1;
+  }
+  50% {
+    filter: drop-shadow(0 0 34px rgba(123, 44, 191, 0.65));
+    opacity: 0.88;
+  }
+}
+
+@keyframes word-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@keyframes shine-sweep {
+  0% { transform: translateX(-100%); }
+  55%, 100% { transform: translateX(100%); }
+}
+
+@keyframes content-in {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
