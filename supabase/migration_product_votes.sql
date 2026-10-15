@@ -16,12 +16,15 @@ CREATE TABLE IF NOT EXISTS public.product_votes (
 -- 3. RLS
 ALTER TABLE public.product_votes ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "anon_insert_votes" ON public.product_votes;
 CREATE POLICY "anon_insert_votes" ON public.product_votes
   FOR INSERT TO anon WITH CHECK (true);
 
+DROP POLICY IF EXISTS "anon_select_votes" ON public.product_votes;
 CREATE POLICY "anon_select_votes" ON public.product_votes
   FOR SELECT TO anon USING (true);
 
+DROP POLICY IF EXISTS "authenticated_all_votes" ON public.product_votes;
 CREATE POLICY "authenticated_all_votes" ON public.product_votes
   FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
