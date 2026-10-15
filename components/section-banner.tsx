@@ -62,7 +62,7 @@ export function SectionBanner({
         }}
       />
 
-      {/* Slideshow de zapatos encima (+20% de tamaño) */}
+      {/* Slideshow de zapatos encima (+35% de tamaño) */}
       {clean.length > 0 && (
         <div className="absolute inset-0" aria-hidden="true">
           {clean.map((img, i) => (
@@ -71,6 +71,9 @@ export function SectionBanner({
               className={`absolute inset-0 transition-opacity duration-[1400ms] ease-out ${
                 i === current ? 'opacity-100' : 'opacity-0'
               }`}
+              style={{
+                backgroundColor: /dragon/i.test(img) ? '#ffffff' : 'transparent',
+              }}
             >
               <div
                 className="absolute inset-0 transition-transform duration-[1400ms] ease-out"
@@ -79,7 +82,8 @@ export function SectionBanner({
                   backgroundSize: 'contain',
                   backgroundPosition: 'center right 8%',
                   backgroundRepeat: 'no-repeat',
-                  transform: i === current ? 'scale(1.2)' : 'scale(1.25)',
+                  transform: i === current ? 'scale(1.35)' : 'scale(1.4)',
+                  transformOrigin: '92% center',
                 }}
               />
             </div>
