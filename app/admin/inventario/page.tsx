@@ -10,6 +10,7 @@ import { ADVISORS } from '@/lib/constants'
 import { createClient } from '@/lib/supabase/client'
 import { processSale } from '@/lib/sales'
 import { getMovements, registerStockEntry, MovementRecord } from '@/lib/movements'
+import { PinGate } from '@/components/admin/pin-gate'
 
 const supabase = createClient()
 
@@ -476,6 +477,7 @@ export default function InventoryPage() {
   }
 
   return (
+    <PinGate sectionName="Inventario">
     <div className="space-y-8">
       {/* CABECERA */}
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
@@ -807,5 +809,6 @@ export default function InventoryPage() {
         isSubmitting={isSubmitting}
       />
     </div>
+    </PinGate>
   )
 }

@@ -15,6 +15,7 @@ import {
 import Image from 'next/image'
 import { ProductItem } from '@/lib/types'
 import { createClient } from '@/lib/supabase/client'
+import { PinGate } from '@/components/admin/pin-gate'
 
 const supabase = createClient()
 
@@ -205,6 +206,7 @@ export default function OffersPage() {
   }
 
   return (
+    <PinGate sectionName="Ofertas">
     <div className="space-y-8 pb-12 px-2 sm:px-4">
       {/* HEADER DE LA SECCIÓN */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -595,5 +597,6 @@ export default function OffersPage() {
         </div>
       )}
     </div>
+    </PinGate>
   )
 }

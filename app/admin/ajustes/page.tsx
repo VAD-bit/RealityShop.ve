@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Settings, Save, Loader2, AlertCircle, Ticket, Plus, Power, Trash2 } from 'lucide-react'
+import { Settings, Save, Loader2, AlertCircle, Ticket, Plus, Power, Trash2, Lock, Eye, EyeOff } from 'lucide-react'
 import {
   getSettings,
   saveSettings,
@@ -37,6 +37,11 @@ export default function AjustesPage() {
     max_uses: '',
   })
   const [isCreatingCoupon, setIsCreatingCoupon] = useState<boolean>(false)
+
+  // PIN de seguridad
+  const [showPinInput, setShowPinInput] = useState<boolean>(false)
+  const [pinConfirm, setPinConfirm] = useState<string>('')
+  const [pinError, setPinError] = useState<string>('')
 
   const refreshCoupons = async () => {
     setIsLoadingCoupons(true)
@@ -80,6 +85,20 @@ export default function AjustesPage() {
     e.preventDefault()
     setIsSaving(true)
     setMessage(null)
+    setPinError('')
+
+    // Validar PIN si se está cambiando
+    const newPin = (settings.adminPin || '').trim()
+    if (newPin && newPin !== pinConfirm.trim()) {
+      setPinError('La confirmación del PIN no coincide.')
+      setIsSaving(false)
+      return
+    }
+    if (newPin && newPin.length < 4) {
+      setPinError('El PIN debe tener al menos 4 dígitos.')
+      setIsSaving(false)
+      return
+    }
 
     try {
       await saveSettings({
@@ -92,8 +111,10 @@ export default function AjustesPage() {
         pagoMovilCedula: settings.pagoMovilCedula.trim(),
         zelleEmail: settings.zelleEmail.trim(),
         binancePayId: settings.binancePayId.trim(),
+        adminPin: newPin,
       })
       resetSettingsCache()
+      setPinConfirm('')
       setMessage({ type: 'success', text: 'Ajustes guardados correctamente.' })
     } catch (error: any) {
       console.error('Error guardando ajustes:', error)
@@ -336,6 +357,83 @@ export default function AjustesPage() {
               className="ds-input font-mono"
               placeholder="Ej. 00000000"
             />
+          </div>
+
+          {/* ── SEGURIDAD: PIN DE ACCESO ── */}
+          <div className="sm:col-span-3 border-t border-white/[0.06] pt-4">
+            <div className="mb-3 flex items-center gap-2">
+              <div className="flex size-7 items-center justify-center rounded-lg border border-[#ef4444]/20 bg-[#242428]">
+                <Lock className="size-3.5 text-[#ef4444]" />
+              </div>
+              <div>
+                <h3 className="font-heading text-xs font-black uppercase tracking-widest text-white">
+                  Seguridad — PIN de Acceso
+                </h3>
+                <p className="text-[10px] font-semibold" style={{ color: 'var(--ds-txt-3)' }}>
+                  Protege Inventario y Ofertas. Déjalo vacío para desactivar.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-1.5 block text-[10px] font-black uppercase tracking-widest text-neutral-400">
+                  Nuevo PIN (4+ dígitos)
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPinInput ? 'text' : 'password'}
+                    value={settings.adminPin}
+                    onChange={(e) => {
+                      setSettings((prev) => ({ ...prev, adminPin: e.target.value }))
+                      setPinError('')
+                    }}
+                    className="ds-input ds-input-icon pr-11 font-mono text-sm tracking-[0.3em]"
+                    placeholder="••••"
+                    maxLength={12}
+                    autoComplete="off"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPinInput(!showPinInput)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-white transition-colors"
+                    tabIndex={-1}
+                  >
+                    {showPinInput ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="mb-1.5 block text-[10px] font-black uppercase tracking-widest text-neutral-400">
+                  Confirmar PIN
+                </label>
+                <input
+                  type={showPinInput ? 'text' : 'password'}
+                  value={pinConfirm}
+                  onChange={(e) => {
+                    setPinConfirm(e.target.value)
+                    setPinError('')
+                  }}
+                  className="ds-input font-mono text-sm tracking-[0.3em]"
+                  placeholder="••••"
+                  maxLength={12}
+                  autoComplete="off"
+                />
+              </div>
+            </div>
+
+            {pinError && (
+              <p className="mt-2 flex items-center gap-1.5 text-xs font-bold text-red-400">
+                <AlertCircle className="size-3.5" /> {pinError}
+              </p>
+            )}
+
+            {settings.adminPin && (
+              <p className="mt-2 text-[10px] font-semibold uppercase tracking-wider text-amber-400">
+                PIN activo — Inventario y Ofertas requieren PIN
+              </p>
+            )}
           </div>
         </div>
 

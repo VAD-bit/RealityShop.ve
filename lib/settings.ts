@@ -12,6 +12,7 @@ export interface AppSettings {
   pagoMovilCedula: string
   zelleEmail: string
   binancePayId: string
+  adminPin: string
 }
 
 export const DEFAULT_SETTINGS: AppSettings = {
@@ -24,6 +25,7 @@ export const DEFAULT_SETTINGS: AppSettings = {
   pagoMovilCedula: '',
   zelleEmail: '',
   binancePayId: '',
+  adminPin: '',
 }
 
 const LS_KEY = 'rs_admin_settings'
@@ -52,6 +54,7 @@ function fromRows(rows: { key: string; value: string }[]): AppSettings {
     pagoMovilCedula: map['pago_movil_cedula'] || '',
     zelleEmail: map['zelle_email'] || '',
     binancePayId: map['binance_pay_id'] || '',
+    adminPin: map['admin_pin'] || '',
   }
 }
 
@@ -111,6 +114,7 @@ export async function saveSettings(next: AppSettings): Promise<void> {
         { key: 'pago_movil_cedula', value: next.pagoMovilCedula || '' },
         { key: 'zelle_email', value: next.zelleEmail || '' },
         { key: 'binance_pay_id', value: next.binancePayId || '' },
+        { key: 'admin_pin', value: next.adminPin || '' },
       ],
       { onConflict: 'key' }
     )
